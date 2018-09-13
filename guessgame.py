@@ -12,10 +12,18 @@ MAX = 20
 target_number = random.randint(MIN, MAX)
 print("Guess a number between", MIN, "and", MAX,":")
 
-user_guess = int(input().strip())
+chances = 5
+attempts = 0
 
-if user_guess == target_number:
-    print("You win!")
-else:
-    print("You suck!")
+while attempts < chances:
+    user_guess = int(input().strip())
+
+    if user_guess == target_number:
+        print("You win!")
+    else:
+        attempts += 1
+        if attempts != chances:
+            print("Nope, try again!")
+
+if attempts == chances:
     print("The correct answer was:", target_number)
