@@ -2,7 +2,7 @@
 #guessgame.py
 #EthanDall
 #10-30-2017
-#simple number guessing game
+#amazing number guessing game, greatest of all time
 
 import random
 
