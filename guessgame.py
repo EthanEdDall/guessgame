@@ -7,12 +7,12 @@
 import random
 
 MIN = 1
-MAX = 500
+MAX = 200
 
 target_number = random.randint(MIN, MAX)
 print("Guess a number between", MIN, "and", MAX,":")
 
-chances = 5
+chances = 10
 attempts = 0
 
 while attempts < chances:
