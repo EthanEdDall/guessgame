@@ -7,7 +7,7 @@
 import random
 
 MIN = 1
-MAX = 20
+MAX = 500
 
 target_number = random.randint(MIN, MAX)
 print("Guess a number between", MIN, "and", MAX,":")
@@ -23,7 +23,10 @@ while attempts < chances:
     else:
         attempts += 1
         if attempts != chances:
-            print("Nope, try again!")
+            if user_guess > target_number:
+                print("Nope, try again! Hint: Guess a smaller number.")
+            else:
+                print("Wrong... Hint: guess a bigger number.")
 
 if attempts == chances:
-    print("The correct answer was:", target_number)
+    print("You suck! The correct answer was:", target_number)
