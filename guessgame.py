@@ -70,7 +70,7 @@ class GuessingGame:
             return Result.INVALID_INPUT
 
 
-        wrong_guess       = number    != number
+        correct_guess       = number    == self.target_number
         last_chance       = self.attempts == MAX_ATTEMPTS
         game_already_over = self.attempts >  MAX_ATTEMPTS
 
@@ -84,10 +84,10 @@ class GuessingGame:
         if last_chance:
             self.state  = GameState.GAME_OVER
 
-            if wrong_guess:
+            if not correct_guess:
               return Result.YOU_LOST
 
-        if number == self.target_number:
+        if correct_guess:
             self.state = GameState.GAME_OVER
             return Result.YOU_WON
         elif number > self.target_number:
