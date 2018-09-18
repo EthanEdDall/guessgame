@@ -16,9 +16,20 @@ MIN_GUESS    =   1
 MAX_GUESS    = 200
 MAX_ATTEMPTS =  10
 
-GAMES_LOST = 0
 GAMES_WON = 0
 TOTAL_GAMES = 0
+
+def score(point):
+    if point > 0:
+        global GAMES_WON
+        GAMES_WON += 1
+    global TOTAL_GAMES
+    TOTAL_GAMES += 1
+
+def print_score():
+    global GAMES_WON
+    global TOTAL_GAMES
+    print("Win rate is {} / {} games.".format(GAMES_WON,TOTAL_GAMES));
 
 class GameState(Enum):
     """
@@ -89,13 +100,11 @@ class GuessingGame:
             self.state  = GameState.GAME_OVER
 
             if not correct_guess:
-			  GAMES_LOST += 1
-			  TOTAL_GAMES += 1
-              return Result.YOU_LOST
+                score(-1)
+                return Result.YOU_LOST
 
         if correct_guess:
-		    GAMES_WON += 1
-			TOTAL_GAMES += 1
+            score(1)
             self.state = GameState.GAME_OVER
             return Result.YOU_WON
         elif number > self.target_number:
@@ -125,5 +134,5 @@ if __name__ == "__main__":
         event = game.guess(input().strip())
 
         print(event_message[event])
-	
-    print("Won:{} Lost:{}".format(GAMES_WON, GAMES_LOST));
+
+    print_score()
