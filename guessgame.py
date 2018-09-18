@@ -70,7 +70,7 @@ class GuessingGame:
             return Result.INVALID_INPUT
 
 
-        wrong_guess       = number    != number
+        correct_guess     = number        == self.target_number
         last_chance       = self.attempts == MAX_ATTEMPTS
         game_already_over = self.attempts >  MAX_ATTEMPTS
 
@@ -84,10 +84,10 @@ class GuessingGame:
         if last_chance:
             self.state  = GameState.GAME_OVER
 
-            if wrong_guess:
+            if not correct_guess:
               return Result.YOU_LOST
 
-        if number == self.target_number:
+        if correct_guess:
             self.state = GameState.GAME_OVER
             return Result.YOU_WON
         elif number > self.target_number:
@@ -102,12 +102,12 @@ if __name__ == "__main__":
     game = GuessingGame()
 
     event_message = {
-        Result.YOU_WON:       lambda: "You win!",
-        Result.GUESS_LOWER:   lambda: "Nope, try again! Hint: Guess a smaller number.",
-        Result.GUESS_HIGHER:  lambda: "Wrong... Hint: guess a bigger number.",
-        Result.YOU_LOST:      lambda: "You suck! The correct answer was:{}".format(game.target_number),
-        Result.INVALID_INPUT: lambda: "Invalid input, please enter a number between {} and {}.".format(MIN_GUESS, MAX_GUESS),
-        Result.GAME_OVER:     lambda: "The game is already over, no more moves left."
+        Result.YOU_WON:        "You win!",
+        Result.GUESS_LOWER:    "Nope, try again! Hint: Guess a smaller number.",
+        Result.GUESS_HIGHER:   "Wrong... Hint: guess a bigger number.",
+        Result.YOU_LOST:       "You suck! The correct answer was:{}".format(game.target_number),
+        Result.INVALID_INPUT:  "Invalid input, please enter a number between {} and {}.".format(MIN_GUESS, MAX_GUESS),
+        Result.GAME_OVER:      "The game is already over, no more moves left."
     }
 
     print("Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS))
@@ -116,4 +116,4 @@ if __name__ == "__main__":
         print("turn {}/{}:".format(game.attempts, MAX_ATTEMPTS))
         event = game.guess(input().strip())
 
-        print(event_message[event]())
+        print(event_message[event])
