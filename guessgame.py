@@ -12,6 +12,9 @@ another application (a GUI), or run standalone as a console game.
 import random
 from enum import Enum
 
+from sys import exit
+from tkinter import *   
+
 MIN_GUESS    =   1
 MAX_GUESS    = 200
 MAX_ATTEMPTS =  10
@@ -95,25 +98,58 @@ class GuessingGame:
         else:
             return Result.GUESS_HIGHER
 
+
+class GuessingGameGui(Frame):
+    def __init__(self, parent=None):
+        Frame.__init__(self, parent)
+        self.data = 42
+        self.make_widgets()
+
+        self.game = GuessingGame()
+
+        self.event_messages = {
+            Result.YOU_WON:        "You win!",
+            Result.GUESS_LOWER:    "Nope,\n try again! Hint: Guess a smaller number.",
+            Result.GUESS_HIGHER:   "Wrong... Hint: guess a bigger number.",
+            Result.YOU_LOST:       "You suck! The correct answer was:{}".format(self.game.target_number),
+            Result.INVALID_INPUT:  "Invalid input, please enter a number between {} and {}.".format(MIN_GUESS, MAX_GUESS),
+            Result.GAME_OVER:      "The game is already over, no more moves left."
+        }
+
+    def make_widgets(self):
+        self.console_label = Label(self, text="Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS), bg="white", fg="black")
+        self.console_label.pack(fill=BOTH, expand=1)
+
+        self.input = Entry(self)
+        
+        self.input.insert(0, "")
+        self.input.pack(fill=BOTH)
+
+        self.next_turn = Button(self, text="Next", command=self.button_click)
+        self.next_turn.pack(fill=BOTH)
+
+    def button_click(self):
+        print("button_click")
+        
+        event = self.game.guess(self.input.get())
+        self.update_console(event)
+
+    def update_console(self, result):
+
+        self.console_label['text'] += "\nturn {}/{}:".format(self.game.attempts, MAX_ATTEMPTS)
+        print("update_console")
+
+        print(self.event_messages[result])
+        self.console_label['text'] += "\n" + self.event_messages[result]
+
+    def message(self):
+        self.data = self.data + 1
+        print('Hello', self.data)
 if __name__ == "__main__":
-    """
-    A console interface for the guessing game.
-    """
-    game = GuessingGame()
-
-    event_message = {
-        Result.YOU_WON:        "You win!",
-        Result.GUESS_LOWER:    "Nope, try again! Hint: Guess a smaller number.",
-        Result.GUESS_HIGHER:   "Wrong... Hint: guess a bigger number.",
-        Result.YOU_LOST:       "You suck! The correct answer was:{}".format(game.target_number),
-        Result.INVALID_INPUT:  "Invalid input, please enter a number between {} and {}.".format(MIN_GUESS, MAX_GUESS),
-        Result.GAME_OVER:      "The game is already over, no more moves left."
-    }
-
-    print("Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS))
-
-    while game.state == GameState.IN_PLAY:
-        print("turn {}/{}:".format(game.attempts, MAX_ATTEMPTS))
-        event = game.guess(input().strip())
-
-        print(event_message[event])
+    root = Tk()
+    parent = Frame(master=root, width=500, height=600)
+    parent.pack_propagate(0)
+    parent.pack(fill=BOTH, expand=1)
+    child =  GuessingGameGui(parent)
+    child.pack(fill=BOTH, expand=1)
+    child.mainloop()
