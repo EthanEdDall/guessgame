@@ -13,7 +13,9 @@ import random
 from enum import Enum
 
 from sys import exit
-from tkinter import *   
+
+from tkinter import *
+from tkinter.ttk import *
 
 MIN_GUESS    =   1
 MAX_GUESS    = 200
@@ -117,7 +119,7 @@ class GuessingGameGui(Frame):
         }
 
     def make_widgets(self):
-        self.console_label = Label(self, text="Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS), bg="white", fg="black")
+        self.console_label = Label(self, text="Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS))
         self.console_label.pack(fill=BOTH, expand=1)
 
         self.input = Entry(self)
@@ -147,6 +149,10 @@ class GuessingGameGui(Frame):
         print('Hello', self.data)
 if __name__ == "__main__":
     root = Tk()
+
+    root.style = Style()
+    root.style.theme_use("clam")
+
     parent = Frame(master=root, width=500, height=600)
     parent.pack_propagate(0)
     parent.pack(fill=BOTH, expand=1)
