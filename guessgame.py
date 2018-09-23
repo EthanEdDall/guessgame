@@ -104,8 +104,16 @@ class GuessingGame:
         else:
             return Result.GUESS_HIGHER
 
+
 class GuessingGameGui():
+    """
+    The graphical user interface for the game.
+    """
     def __init__(self, builder):
+        """
+        This loads the user interface description from the passed in builder instance,
+        gets references to controls, and registers event handlers.
+        """
         self.builder = builder
 
         builder.connect_signals(self)
@@ -127,6 +135,9 @@ class GuessingGameGui():
         self.window.show_all()
 
     def update_status_lights(self, lower_on, higher_on):
+        """
+        Sets the status LED lights based the passed in values.
+        """
         self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
         self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
 
@@ -138,6 +149,9 @@ class GuessingGameGui():
         
 
     def next_clicked(self, event):
+        """
+        The even handler for when the next button is clicked.
+        """
         next_guess = self.guess_spinner.get_value()
 
         result = self.game.guess(next_guess)
