@@ -164,7 +164,7 @@ class GuessingGameGui():
 
             self.update_status_lights(True, True)
         elif result == Result.YOU_LOST:
-            self.game_status_label.set_text("You suck!")
+            self.game_status_label.set_text("You suck! the answer was {}".format(self.game.target_number))
             
             self.lower_label.set_text("You are loser!")
             self.higher_label.set_text("You are loser!")
