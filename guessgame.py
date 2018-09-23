@@ -130,7 +130,17 @@ class GuessingGameGui():
 
         self.window.show_all()
 
-    
+    def update_status_lights(self, lower_on, higher_on):
+        self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+        self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+
+        if lower_on:
+            self.lower_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+        
+        if higher_on:
+            self.higher_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+        
+
     def next_clicked(self, event):
         next_guess = self.guess_spinner.get_value()
 
@@ -140,26 +150,22 @@ class GuessingGameGui():
             
             # Game status label should be updated
             self.game_status_label.set_text("You won!")
-            self.higher_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
-            self.lower_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+            self.update_status_lights(True, True)
         elif result == Result.YOU_LOST:
             # Game status label should be updated
             self.game_status_label.set_text("You suck!")
-            self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
-            self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+            self.update_status_lights(False, False)
         elif result == Result.GAME_OVER:
             # Game status label should be updated
             self.game_status_label.set_text("The game is over!")
         elif result == Result.GUESS_HIGHER:
-            # Change guess higher/lower images
-            self.higher_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
-            self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+            # Change guess higher/lower images 
+            self.update_status_lights(False, True)
             # update game status label
             self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
         elif result == Result.GUESS_LOWER:
             # Change guess higher/lower images
-            self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
-            self.lower_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+            self.update_status_lights(True, False)
             # update game status label
             self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
         elif result == Result.INVALID_INPUT:
