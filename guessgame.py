@@ -17,6 +17,10 @@ from sys import exit
 from tkinter import *
 from tkinter.ttk import *
 
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
 MIN_GUESS    =   1
 MAX_GUESS    = 200
 MAX_ATTEMPTS =  10
@@ -100,62 +104,30 @@ class GuessingGame:
         else:
             return Result.GUESS_HIGHER
 
+class GuessingGameGui():
+    def __init__(self, builder):
+        self.builder = builder
 
-class GuessingGameGui(Frame):
-    def __init__(self, parent=None):
-        Frame.__init__(self, parent)
-        self.data = 42
-        self.make_widgets()
+        builder.connect_signals(self)
 
+        self.window = builder.get_object("window1")
         self.game = GuessingGame()
-
+        
         self.event_messages = {
             Result.YOU_WON:        "You win!",
-            Result.GUESS_LOWER:    "Nope,\n try again! Hint: Guess a smaller number.",
-            Result.GUESS_HIGHER:   "Wrong... Hint: guess a bigger number.",
-            Result.YOU_LOST:       "You suck! The correct answer was:{}".format(self.game.target_number),
-            Result.INVALID_INPUT:  "Invalid input, please enter a number between {} and {}.".format(MIN_GUESS, MAX_GUESS),
-            Result.GAME_OVER:      "The game is already over, no more moves left."
+            Result.YOU_LOST:       "You suck! The correct answer was:{}".format(self.game.target_number),    
         }
 
-    def make_widgets(self):
-        self.console_label = Label(self, text="Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS))
-        self.console_label.pack(fill=BOTH, expand=1)
+        self.window.show_all()
 
-        self.input = Entry(self)
-        
-        self.input.insert(0, "")
-        self.input.pack(fill=BOTH)
-
-        self.next_turn = Button(self, text="Next", command=self.button_click)
-        self.next_turn.pack(fill=BOTH)
-
-    def button_click(self):
-        print("button_click")
-        
-        event = self.game.guess(self.input.get())
-        self.update_console(event)
-
-    def update_console(self, result):
-
-        self.console_label['text'] += "\nturn {}/{}:".format(self.game.attempts, MAX_ATTEMPTS)
-        print("update_console")
-
-        print(self.event_messages[result])
-        self.console_label['text'] += "\n" + self.event_messages[result]
-
-    def message(self):
-        self.data = self.data + 1
-        print('Hello', self.data)
+    
+    def next_clicked(self, event):
+        print("next was clicked!")
+    
 if __name__ == "__main__":
-    root = Tk()
+    builder = Gtk.Builder()
+    builder.add_from_file("GuessingGameGaldeGtk.glade")
 
-    root.style = Style()
-    root.style.theme_use("clam")
-
-    parent = Frame(master=root, width=500, height=600)
-    parent.pack_propagate(0)
-    parent.pack(fill=BOTH, expand=1)
-    child =  GuessingGameGui(parent)
-    child.pack(fill=BOTH, expand=1)
-    child.mainloop()
+    gui = GuessingGameGui(builder)
+    
+    Gtk.main()
