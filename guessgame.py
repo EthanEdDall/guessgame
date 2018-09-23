@@ -7,7 +7,7 @@
 #   * Jesse Raines
 #   * Michael Ranciglio
 #   * Andrew Smith
-#   * Jesse Raines
+#   * Stephen Sladek
 # 09-22-2018
 # amazing number guessing game, greatest of all time
 
