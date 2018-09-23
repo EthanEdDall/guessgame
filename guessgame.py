@@ -187,7 +187,7 @@ class GuessingGameGui():
     
 if __name__ == "__main__":
     builder = Gtk.Builder()
-    builder.add_from_file("GuessingGameGaldeGtk.glade")
+    builder.add_from_file("guessinggame.glade")
 
     gui = GuessingGameGui(builder)
     
