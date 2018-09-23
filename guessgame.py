@@ -139,19 +139,26 @@ class GuessingGameGui():
             
             # Game status label should be updated
             self.game_status_label.set_text("You won!")
+            self.higher_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+            self.lower_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
         elif result == Result.YOU_LOST:
             # Game status label should be updated
             self.game_status_label.set_text("You suck!")
+            self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+            self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
         elif result == Result.GAME_OVER:
             # Game status label should be updated
             self.game_status_label.set_text("The game is over!")
         elif result == Result.GUESS_HIGHER:
             # Change guess higher/lower images
+            self.higher_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+            self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
             # update game status label
             self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
-
         elif result == Result.GUESS_LOWER:
             # Change guess higher/lower images
+            self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+            self.lower_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
             # update game status label
             self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
         elif result == Result.INVALID_INPUT:
