@@ -110,25 +110,20 @@ class GuessingGameGui():
 
         builder.connect_signals(self)
 
-        self.window = builder.get_object("window1")
-        self.next_button = builder.get_object("btnGuess")
-        self.lower_image = builder.get_object("imgLower")
-        self.higher_image = builder.get_object("imgHigher")
-        self.guess_spinner = builder.get_object("spinGuess")        
+        self.window            = builder.get_object("window1")
+        self.next_button       = builder.get_object("btnGuess")
+        self.lower_image       = builder.get_object("imgLower")
+        self.higher_image      = builder.get_object("imgHigher")
+        self.guess_spinner     = builder.get_object("spinGuess")        
         self.game_status_label = builder.get_object("lblGameStatus")
-        self.higher_label = builder.get_object("lblHigher")
-        self.lower_label = builder.get_object("lblLower")
+        self.higher_label      = builder.get_object("lblHigher")
+        self.lower_label       = builder.get_object("lblLower")
 
         adjustment = Gtk.Adjustment(1, 1, 200, 1, 10, 0)
         self.guess_spinner.set_adjustment(adjustment)
         
         self.game = GuessingGame()
         self.window.connect("destroy", Gtk.main_quit)
-        self.event_messages = {
-            Result.YOU_WON:        "You win!",
-            Result.YOU_LOST:       "You suck! The correct answer was:{}".format(self.game.target_number),    
-        }
-
         self.window.show_all()
 
     def update_status_lights(self, lower_on, higher_on):
@@ -148,32 +143,30 @@ class GuessingGameGui():
         result = self.game.guess(next_guess)
 
         if result == Result.YOU_WON:
-            
-            # Game status label should be updated
             self.game_status_label.set_text("You won!")
+            
             self.lower_label.set_text("You are winner!")
             self.higher_label.set_text("You are winner!")
 
             self.update_status_lights(True, True)
         elif result == Result.YOU_LOST:
-            # Game status label should be updated
             self.game_status_label.set_text("You suck!")
+            
             self.lower_label.set_text("You are loser!")
             self.higher_label.set_text("You are loser!")
+       
             self.update_status_lights(False, False)
         elif result == Result.GAME_OVER:
-            # Game status label should be updated
             self.game_status_label.set_text("The game is over!")
+       
             self.next_button.set_sensitive(False)
         elif result == Result.GUESS_HIGHER:
-            # Change guess higher/lower images 
             self.update_status_lights(False, True)
-            # update game status label
+       
             self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
         elif result == Result.GUESS_LOWER:
-            # Change guess higher/lower images
             self.update_status_lights(True, False)
-            # update game status label
+       
             self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
         elif result == Result.INVALID_INPUT:
             self.game_status_label.set_text("Somehow you entered invalid input!")
