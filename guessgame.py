@@ -115,6 +115,7 @@ class GuessingGameGui():
         self.lower_image = builder.get_object("imgLower")
         self.higher_image = builder.get_object("imgHigher")
         self.guess_spinner = builder.get_object("spinGuess")        
+        self.game_status_label = builder.get_object("lblGameStatus")
 
         adjustment = Gtk.Adjustment(1, 1, 200, 1, 10, 0)
         self.guess_spinner.set_adjustment(adjustment)
@@ -135,17 +136,26 @@ class GuessingGameGui():
         result = self.game.guess(next_guess)
 
         if result == Result.YOU_WON:
-            print("you won!")
+            
+            # Game status label should be updated
+            self.game_status_label.set_text("You won!")
         elif result == Result.YOU_LOST:
-            print("you suck!")
+            # Game status label should be updated
+            self.game_status_label.set_text("You suck!")
         elif result == Result.GAME_OVER:
-            print("The game is over!")
+            # Game status label should be updated
+            self.game_status_label.set_text("The game is over!")
         elif result == Result.GUESS_HIGHER:
-            print("Guess higher!")
+            # Change guess higher/lower images
+            # update game status label
+            self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
+
         elif result == Result.GUESS_LOWER:
-            print("Guess lower!")
+            # Change guess higher/lower images
+            # update game status label
+            self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
         elif result == Result.INVALID_INPUT:
-            print("Somehow you entered invalid input in to the spinbutton!")
+            self.game_status_label.set_text("Somehow you entered invalid input!")
     
 if __name__ == "__main__":
     builder = Gtk.Builder()
