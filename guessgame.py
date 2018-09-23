@@ -117,6 +117,8 @@ class GuessingGameGui():
         self.higher_image = builder.get_object("imgHigher")
         self.guess_spinner = builder.get_object("spinGuess")        
         self.game_status_label = builder.get_object("lblGameStatus")
+        self.higher_label = builder.get_object("lblHigher")
+        self.lower_label = builder.get_object("lblLower")
 
         adjustment = Gtk.Adjustment(1, 1, 200, 1, 10, 0)
         self.guess_spinner.set_adjustment(adjustment)
@@ -150,10 +152,15 @@ class GuessingGameGui():
             
             # Game status label should be updated
             self.game_status_label.set_text("You won!")
+            self.lower_label.set_text("You are winner!")
+            self.higher_label.set_text("You are winner!")
+
             self.update_status_lights(True, True)
         elif result == Result.YOU_LOST:
             # Game status label should be updated
             self.game_status_label.set_text("You suck!")
+            self.lower_label.set_text("You are loser!")
+            self.higher_label.set_text("You are loser!")
             self.update_status_lights(False, False)
         elif result == Result.GAME_OVER:
             # Game status label should be updated
