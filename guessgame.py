@@ -82,12 +82,11 @@ class GuessingGame:
 
         correct_guess     = number        == self.target_number
         last_chance       = self.attempts == MAX_ATTEMPTS
-        game_already_over = self.attempts >  MAX_ATTEMPTS
-
-        
+        game_already_over = self.state == GameState.GAME_OVER or (self.attempts >  MAX_ATTEMPTS)
 
         # If the game is over, do not process a turn.
         if game_already_over:
+            self.state = GameState.GAME_OVER
             return Result.GAME_OVER
 
         # Last turn
@@ -112,7 +111,7 @@ class GuessingGameGui():
         builder.connect_signals(self)
 
         self.window = builder.get_object("window1")
-        self.next_button = builder.get_object("btnNext")
+        self.next_button = builder.get_object("btnGuess")
         self.lower_image = builder.get_object("imgLower")
         self.higher_image = builder.get_object("imgHigher")
         self.guess_spinner = builder.get_object("spinGuess")        
@@ -165,6 +164,7 @@ class GuessingGameGui():
         elif result == Result.GAME_OVER:
             # Game status label should be updated
             self.game_status_label.set_text("The game is over!")
+            self.next_button.set_sensitive(False)
         elif result == Result.GUESS_HIGHER:
             # Change guess higher/lower images 
             self.update_status_lights(False, True)
