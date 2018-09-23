@@ -1,12 +1,18 @@
 #!/user/bin/env python3
-#guessgame.py
-#EthanDall
-#10-30-2017
-#amazing number guessing game, greatest of all time
+# guessgame.py
+# Authors:
+#   * Ethan Dall
+#   * Kyle Burkett
+#   * Aaron Gunther
+#   * messej
+#   * Michael Ranciglio
+#   * Andrew Smith
+# 09-22-2018
+# amazing number guessing game, greatest of all time
 
 """
 This module implements a reusable guessing game class and can be imported into
-another application (a GUI), or run standalone as a console game.
+another application or run standalone as a GUI game.
 """
 
 import random
