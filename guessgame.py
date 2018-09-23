@@ -4,9 +4,10 @@
 #   * Ethan Dall
 #   * Kyle Burkett
 #   * Aaron Gunther
-#   * messej
+#   * Jesse Raines
 #   * Michael Ranciglio
 #   * Andrew Smith
+#   * Jesse Raines
 # 09-22-2018
 # amazing number guessing game, greatest of all time
 
@@ -30,6 +31,21 @@ from gi.repository import Gtk
 MIN_GUESS    =   1
 MAX_GUESS    = 200
 MAX_ATTEMPTS =  10
+
+GAMES_WON = 0
+TOTAL_GAMES = 0
+
+def score(point):
+    if point > 0:
+        global GAMES_WON
+        GAMES_WON += 1
+    global TOTAL_GAMES
+    TOTAL_GAMES += 1
+
+def print_score():
+    global GAMES_WON
+    global TOTAL_GAMES
+    print("Win rate is {} / {} games.".format(GAMES_WON,TOTAL_GAMES));
 
 class GameState(Enum):
     """
@@ -100,9 +116,11 @@ class GuessingGame:
             self.state  = GameState.GAME_OVER
 
             if not correct_guess:
-              return Result.YOU_LOST
+                score(-1)
+                return Result.YOU_LOST
 
         if correct_guess:
+            score(1)
             self.state = GameState.GAME_OVER
             return Result.YOU_WON
         elif number > self.target_number:
@@ -194,6 +212,7 @@ class GuessingGameGui():
 if __name__ == "__main__":
     builder = Gtk.Builder()
     builder.add_from_file("guessinggame.glade")
+
 
     gui = GuessingGameGui(builder)
     
