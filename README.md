@@ -45,3 +45,11 @@ To edit the user interface:
 5. Save it.
 6. Edit the Python script.
 7. Run it.
+
+## Contributors
+  * Ethan Dall
+  * Kyle Burkett
+  * Aaron Gunther
+  * messej
+  * Michael Ranciglio
+  * Andrew Smith
