@@ -111,6 +111,14 @@ class GuessingGameGui():
         builder.connect_signals(self)
 
         self.window = builder.get_object("window1")
+        self.next_button = builder.get_object("btnNext")
+        self.lower_image = builder.get_object("imgLower")
+        self.higher_image = builder.get_object("imgHigher")
+        self.guess_spinner = builder.get_object("spinGuess")        
+
+        adjustment = Gtk.Adjustment(1, 1, 200, 1, 10, 0)
+        self.guess_spinner.set_adjustment(adjustment)
+        
         self.game = GuessingGame()
         
         self.event_messages = {
@@ -122,7 +130,22 @@ class GuessingGameGui():
 
     
     def next_clicked(self, event):
-        print("next was clicked!")
+        next_guess = self.guess_spinner.get_value()
+
+        result = self.game.guess(next_guess)
+
+        if result == Result.YOU_WON:
+            print("you won!")
+        elif result == Result.YOU_LOST:
+            print("you suck!")
+        elif result == Result.GAME_OVER:
+            print("The game is over!")
+        elif result == Result.GUESS_HIGHER:
+            print("Guess higher!")
+        elif result == Result.GUESS_LOWER:
+            print("Guess lower!")
+        elif result == Result.INVALID_INPUT:
+            print("Somehow you entered invalid input in to the spinbutton!")
     
 if __name__ == "__main__":
     builder = Gtk.Builder()
