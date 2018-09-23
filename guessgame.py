@@ -59,7 +59,7 @@ class GuessingGame:
         Resets the game to its default state.
         """
         self.target_number = random.randint(MIN_GUESS, MAX_GUESS)
-        self.attempts      = 1
+        self.attempts      = 0
         self.state         = GameState.IN_PLAY
 
     def guess(self, user_guess):
@@ -78,12 +78,13 @@ class GuessingGame:
         except ValueError:
             return Result.INVALID_INPUT
 
+        self.attempts += 1
 
         correct_guess     = number        == self.target_number
         last_chance       = self.attempts == MAX_ATTEMPTS
         game_already_over = self.attempts >  MAX_ATTEMPTS
 
-        self.attempts += 1
+        
 
         # If the game is over, do not process a turn.
         if game_already_over:
