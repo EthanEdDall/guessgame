@@ -123,7 +123,7 @@ class GuessingGameGui():
         self.guess_spinner.set_adjustment(adjustment)
         
         self.game = GuessingGame()
-        
+        self.window.connect("destroy", Gtk.main_quit)
         self.event_messages = {
             Result.YOU_WON:        "You win!",
             Result.YOU_LOST:       "You suck! The correct answer was:{}".format(self.game.target_number),    
