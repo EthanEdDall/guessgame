@@ -7,11 +7,11 @@ An amazing guessing number game written in python. Honestly I don't know why any
 ![Game not yet started](screenshots/GuessingGame_001.png)
 
 
-### You guessed too low
+### In play, but you guessed too low
 
 ![Guess was made and was too low](screenshots/GuessingGame_003.png)
 
-### You guessed too high
+### In play, but you guessed too high
 
 ![Guess was made and was too high](screenshots/GuessingGame_004.png)
 
