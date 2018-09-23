@@ -1,16 +1,32 @@
 #!/user/bin/env python3
-#guessgame.py
-#EthanDall
-#10-30-2017
-#amazing number guessing game, greatest of all time
+# guessgame.py
+# Authors:
+#   * Ethan Dall
+#   * Kyle Burkett
+#   * Aaron Gunther
+#   * Jesse Raines
+#   * Michael Ranciglio
+#   * Andrew Smith
+#   * Stephen Sladek
+# 09-22-2018
+# amazing number guessing game, greatest of all time
 
 """
 This module implements a reusable guessing game class and can be imported into
-another application (a GUI), or run standalone as a console game.
+another application or run standalone as a GUI game.
 """
 
 import random
 from enum import Enum
+
+from sys import exit
+
+from tkinter import *
+from tkinter.ttk import *
+
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
 MIN_GUESS    =   1
 MAX_GUESS    = 200
@@ -65,7 +81,7 @@ class GuessingGame:
         Resets the game to its default state.
         """
         self.target_number = random.randint(MIN_GUESS, MAX_GUESS)
-        self.attempts      = 1
+        self.attempts      = 0
         self.state         = GameState.IN_PLAY
 
     def guess(self, user_guess):
@@ -84,15 +100,15 @@ class GuessingGame:
         except ValueError:
             return Result.INVALID_INPUT
 
+        self.attempts += 1
 
         correct_guess     = number        == self.target_number
         last_chance       = self.attempts == MAX_ATTEMPTS
-        game_already_over = self.attempts >  MAX_ATTEMPTS
-
-        self.attempts += 1
+        game_already_over = self.state == GameState.GAME_OVER or (self.attempts >  MAX_ATTEMPTS)
 
         # If the game is over, do not process a turn.
         if game_already_over:
+            self.state = GameState.GAME_OVER
             return Result.GAME_OVER
 
         # Last turn
@@ -112,27 +128,92 @@ class GuessingGame:
         else:
             return Result.GUESS_HIGHER
 
+
+class GuessingGameGui():
+    """
+    The graphical user interface for the game.
+    """
+    def __init__(self, builder):
+        """
+        This loads the user interface description from the passed in builder instance,
+        gets references to controls, and registers event handlers.
+        """
+        self.builder = builder
+
+        builder.connect_signals(self)
+
+        self.window            = builder.get_object("window1")
+        self.next_button       = builder.get_object("btnGuess")
+        self.lower_image       = builder.get_object("imgLower")
+        self.higher_image      = builder.get_object("imgHigher")
+        self.guess_spinner     = builder.get_object("spinGuess")        
+        self.game_status_label = builder.get_object("lblGameStatus")
+        self.higher_label      = builder.get_object("lblHigher")
+        self.lower_label       = builder.get_object("lblLower")
+
+        adjustment = Gtk.Adjustment(1, 1, 200, 1, 10, 0)
+        self.guess_spinner.set_adjustment(adjustment)
+        
+        self.game = GuessingGame()
+        self.window.connect("destroy", Gtk.main_quit)
+        self.window.show_all()
+
+    def update_status_lights(self, lower_on, higher_on):
+        """
+        Sets the status LED lights based the passed in values.
+        """
+        self.higher_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+        self.lower_image.set_from_stock("gtk-no", Gtk.IconSize.BUTTON)
+
+        if lower_on:
+            self.lower_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+        
+        if higher_on:
+            self.higher_image.set_from_stock("gtk-yes", Gtk.IconSize.BUTTON)
+        
+
+    def next_clicked(self, event):
+        """
+        The even handler for when the next button is clicked.
+        """
+        next_guess = self.guess_spinner.get_value()
+
+        result = self.game.guess(next_guess)
+
+        if result == Result.YOU_WON:
+            self.game_status_label.set_text("You won!")
+            
+            self.lower_label.set_text("You are winner!")
+            self.higher_label.set_text("You are winner!")
+
+            self.update_status_lights(True, True)
+        elif result == Result.YOU_LOST:
+            self.game_status_label.set_text("You suck! the answer was {}".format(self.game.target_number))
+            
+            self.lower_label.set_text("You are loser!")
+            self.higher_label.set_text("You are loser!")
+       
+            self.update_status_lights(False, False)
+        elif result == Result.GAME_OVER:
+            self.game_status_label.set_text("The game is over!")
+       
+            self.next_button.set_sensitive(False)
+        elif result == Result.GUESS_HIGHER:
+            self.update_status_lights(False, True)
+       
+            self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
+        elif result == Result.GUESS_LOWER:
+            self.update_status_lights(True, False)
+       
+            self.game_status_label.set_text("{} / {}".format(self.game.attempts, MAX_ATTEMPTS))
+        elif result == Result.INVALID_INPUT:
+            self.game_status_label.set_text("Somehow you entered invalid input!")
+    
 if __name__ == "__main__":
-    """
-    A console interface for the guessing game.
-    """
-    game = GuessingGame()
+    builder = Gtk.Builder()
+    builder.add_from_file("guessinggame.glade")
 
-    event_message = {
-        Result.YOU_WON:        "You win!",
-        Result.GUESS_LOWER:    "Nope, try again! Hint: Guess a smaller number.",
-        Result.GUESS_HIGHER:   "Wrong... Hint: guess a bigger number.",
-        Result.YOU_LOST:       "You suck! The correct answer was:{}".format(game.target_number),
-        Result.INVALID_INPUT:  "Invalid input, please enter a number between {} and {}.".format(MIN_GUESS, MAX_GUESS),
-        Result.GAME_OVER:      "The game is already over, no more moves left."
-    }
 
-    print("Guess a number between {} and {} inclusive:".format(MIN_GUESS, MAX_GUESS))
-
-    while game.state == GameState.IN_PLAY:
-        print("turn {}/{}:".format(game.attempts, MAX_ATTEMPTS))
-        event = game.guess(input().strip())
-
-        print(event_message[event])
-
-    print_score()
+    gui = GuessingGameGui(builder)
+    
+    Gtk.main()
