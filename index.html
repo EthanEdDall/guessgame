@@ -19,37 +19,43 @@
 	
 	<title>guessgame</title>
 	<style>
+		h3, li, p, figcaption {
+			color: white;
+		}
 		section {
 			margin: 2em;
 		}
+		a, a:hover {
+			color: yellow;
+		}
+		hr {
+			border-color: cornflowerblue;
+		}
 	</style>
 </head>
-<body>
+<body class="bg-dark">
 	<div class="container-fluid">
 		<header>
-			<h1>guessgame</h1>
-			<hr/>
+			<h1><span style="color: yellow;">guess</span><span style="color: cornflowerblue;">game</span></h1>
 		</header>
 		<section class="panel-fluid">
-			<figure>
-				<img src="screenshots/snek.png" />
+			<figure style="margin-left:25%;">
+				<img src="screenshots/snek.png" width="50%" />
 				<figcaption>guesss...</figcaption>
 			</figure>
 			
-			<p class="text">
+			<p>
 				This game has been hardcoded with the most elaborate algorithms in number guessing methodology. Experience the absolute thrill of taking on this game of chance and skill as you are either greeted with the ultimate success or miserable failure of the results of your guess.
 			</p>
 		</section>
-		
+		<hr/>
 		<!-- SCREENSHOTS -->
 		<header>
 			<a role="button" data-toggle="collapse" href="#section1" aria-expanded="false" aria-controls="section1">
 				<h2>Screenshots</h2>
-				<hr/>
 			</a>
 		</header>
 		<section id="section1" class="collapse panel-fluid">
-			
 			<h3>In play, but you guessed too low</h3>
 			<figure>
 				<img src="screenshots/GuessingGame_001.png" />
@@ -86,12 +92,11 @@
 				<figcaption>The game was over but you clicked Next anyways</figcaption>
 			</figure>
 		</section>
-		
+		<hr/>
 		<!-- INSTALLATION -->
 		<header>
 			<a role="button" data-toggle="collapse" href="#section2" aria-expanded="false" aria-controls="section2">
 				<h2>Install</h2>
-				<hr/>
 			</a>
 		</header>
 		<section id="section2" class="collapse panel-fluid">
@@ -107,12 +112,11 @@
 				</li>
 			</ol>
 		</section>
-		
+		<hr/>
 		<!-- DEVELOPMENT -->
 		<header>
 			<a role="button" data-toggle="collapse" href="#section3" aria-expanded="false" aria-controls="section3">
 				<h2>Development</h2>
-				<hr/>
 			</a>
 		</header>
 		<section id="section3" class="collapse panel-fluid">
@@ -127,12 +131,11 @@
 				<li>Run it.</li>
 			</ol>
 		</section>
-		
+		<hr/>
 		<!-- CONTRIBUTORS -->
 		<header>
 			<a role="button" data-toggle="collapse" href="#section4" aria-expanded="false" aria-controls="section4">
 				<h2>Contributors</h2>
-				<hr/>
 			</a>
 		</header>
 		<section id="section4" class="collapse panel-fluid">
@@ -146,6 +149,7 @@
 				<li>Stephen Sladek</li>
 			</ul>
 		</section>
+		<hr/>
 	</div>
 </body>
 </html>
