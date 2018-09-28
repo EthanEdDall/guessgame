@@ -1,5 +1,7 @@
 # guessgame
 
+<img src="screenshots/snek.png" width="50%" />
+
 This game has been hardcoded with the most elaborate algorithms in number guessing methodology. Experience the absolute thrill of taking on this game of chance and skill as you are either greeted with the ultimate success or miserable failure of the results of your guess.
 
 ## Screenshots
