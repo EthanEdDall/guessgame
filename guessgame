@@ -3,7 +3,7 @@
 #EthanDall
 #10-30-2017
 #simple number guessing game
-
+print('THIS IS A GUESS GAME')
 import random
 
 MIN = 1
