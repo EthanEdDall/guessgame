@@ -9,5 +9,11 @@ import random
 MIN = 1
 MAX = 20
 
+print("GuessGame is Starting...")
+print("Welcome to the Guess Game.")
+print("Type in your Username ")
+user_name = input()
+print("hello", user_name, "Glad to see you here.")
+
 targetNumber = random.randint(MIN, MAX)
 print(targetNumber)
