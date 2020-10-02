@@ -17,6 +17,7 @@ print("enter your guess")  # Enter some number
 
 guess = int(input())
 targetNumber = random.randint(MIN, MAX)
+
 i = 1
 while i < 5:  # While loop
 
