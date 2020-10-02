@@ -8,6 +8,103 @@ import random
 
 MIN = 1
 MAX = 20
+print("Enter your name")
+name1 = input()
+name = name1.strip()
+print("Hi", name.title(), end=" ")
 
+print("enter your guess")  # Enter some number
+
+guess = int(input())
 targetNumber = random.randint(MIN, MAX)
-print(targetNumber)
+i = 1
+while i < 5:  # While loop
+
+    if guess == targetNumber:  # The correct number
+        print("Well done", name.title(), "you win the game.....")
+
+        print("Your guess is correct in", i, "chance")
+        break
+    else:
+        if targetNumber > guess >= targetNumber - 2:
+            print("You are too close")  # Guess again
+            print("The exact number is ", targetNumber)
+
+            print("You have", 5 - i, "chances left ")
+            print("................................")
+
+        elif targetNumber + 2 >= guess > targetNumber:
+            print("You are too close")  # Re-guess
+            print("The exact number is ", targetNumbea)
+
+            print("You have", 5 - i, "chances left ")
+            print("................................")
+
+        elif guess <= targetNumber - 3:
+            print("You guess a very small number")  # For re-guess
+            print("The exact number is ", targetNumber)
+
+            print("You have", 5 - i, "chances left ")
+            print("................................")
+
+        else:
+            print("You guess a very large number")  # For re-guess
+            print("The exact number is ", targetNumber)
+
+            print("You have", 5 - i, "chances left ")
+            print("................................")
+
+    print("Are you interested?(Yes/No)")  # For the interest of the player in the game
+    ans_ = input()
+    ans = ans_.strip()
+    print("................................")
+    if ans.lower() == "no":
+        print("Thank you for playing.....")
+        break
+    elif ans.lower() == "yes":
+        print("Re-enter your guess")  # Re-entering the game
+        guess = int(input())
+        targetNumber = random.randint(1, 10)
+    else:
+        print("Please enter Yes or No")
+        print("Play from the beginning.....")
+        break
+    i = i + 1  # While loop increment
+    if i == 5:  # For the last chance of guess
+        if guess == targetNumber:  # The exact number
+            print("You win the game")
+
+            print("Your guess is right in", i, "chances")
+
+        elif targetNumber > guess >= targetNumber - 2:  # Out of chance
+            print("You are too close")
+
+            print("Sorry", name.title(), "you have", 5 - i, "chances left ")
+            print("The exact number is ", targetNumber)
+
+            print("Game over!")
+
+        elif targetNumber + 2 >= guess > targetNumber:  # Out of chance
+            print("You are too close")
+
+            print("Sorry", name.title(), "you have", 5 - i, "chances left ")
+            print("The exact number is ", targetNumber)
+
+            print("Game over!")
+
+        elif guess <= targetNumber - 3:  # Out of chance
+            print("You guess a very small number")
+
+            print("Sorry", name.title(), "you have", 5 - i, "chances left ")
+            print("The exact number is ", targetNumber)
+
+            print("Game over!")
+
+        else:  # Out of chance
+            print("You guess a very large number")
+
+            print("Sorry", name.title(), "You have", 5 - i, "chances left ")
+            print("The exact number is ", targetNumber)
+
+            print("Game over!")
+print("Thank you for playing...")
