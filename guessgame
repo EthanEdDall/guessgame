@@ -8,6 +8,18 @@ import random
 
 MIN = 1
 MAX = 20
+attempts = 5
+running = True
 
 targetNumber = random.randint(MIN, MAX)
-print(targetNumber)
+while running and attempts > 0 :
+    number_guess = int(input('Type in a number between 1 and 20: '))
+    if int(number_guess) == targetNumber:
+        print('You got it! ')
+        running = False
+    else:
+        print('Try again...')
+        attempts -= 1
+    if attempts <= 0:
+        print('You ran out of attempts! ')
+
